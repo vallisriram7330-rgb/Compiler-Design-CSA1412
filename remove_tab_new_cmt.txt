@@ -1,0 +1,47 @@
+
+%{
+#include <stdio.h>
+%}
+
+%%
+"//".*                         ;
+"/*"([^*]|\*+[^*/])*\*+"/"     ;
+[\t\n]+                        ;
+.                              { fprintf(yyout, "%s", yytext); }
+%%
+
+int main()
+{
+    FILE *in, *out;
+
+    in = fopen("input2.c", "r");
+    if (in == NULL)
+    {
+        printf("Cannot open input2.c\n");
+        return 1;
+    }
+
+    out = fopen("output2.c", "w");
+    if (out == NULL)
+    {
+        printf("Cannot create output2.c\n");
+        fclose(in);
+        return 1;
+    }
+
+    yyin = in;
+    yyout = out;
+
+    yylex();
+
+    fclose(in);
+    fclose(out);
+
+    printf("Comments, tabs and newlines removed. Check output2.c\n");
+    return 0;
+}
+
+int yywrap()
+{
+    return 1;
+}
