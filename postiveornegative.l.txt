@@ -1,0 +1,35 @@
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+int pos = 0, neg = 0, zero = 0;
+%}
+
+%%
+-[0-9]+    { neg++; }
+[0-9]+     {
+               if (atoi(yytext) == 0)
+                   zero++;
+               else
+                   pos++;
+            }
+[ \t\n]+   ;
+.          ;
+%%
+
+int main()
+{
+    printf("Enter numbers (Ctrl+Z, Enter to finish):\n");
+    yylex();
+
+    printf("\nPositive numbers = %d\n", pos);
+    printf("Negative numbers = %d\n", neg);
+    printf("Zeros = %d\n", zero);
+
+    return 0;
+}
+
+int yywrap()
+{
+    return 1;
+}
