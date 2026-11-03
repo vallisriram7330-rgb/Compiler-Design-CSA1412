@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+int main() {
+    // This is a comment
+    int a = 10;
+    /* Another comment */
+    printf("Hello");
+    return 0;
+}
